@@ -74,7 +74,7 @@ workflows:
             #!/bin/bash
             set -ex
             # TODO: Remove this guard once osx-xcode stacks ship JDK 25
-            if [[ "$BITRISEIO_STACK_ID" == osx-xcode-* ]]; then
+            if [[ "$BITRISEIO_STACK_ID" == osx-xcode-* ]] || [[ "$BITRISEIO_STACK_ID" == linux-docker-android-22.04 ]]; then
               VERSION_AVAILABLE=false
             else
               VERSION_AVAILABLE=true
