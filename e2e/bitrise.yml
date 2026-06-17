@@ -73,8 +73,8 @@ workflows:
         - content: |-
             #!/bin/bash
             set -ex
-            # TODO: Remove this guard once Xcode 26.0-26.3 stacks ship JDK 25
-            if [[ "$BITRISEIO_STACK_ID" == osx-xcode-26.0.* ]] || [[ "$BITRISEIO_STACK_ID" == osx-xcode-26.1.* ]] || [[ "$BITRISEIO_STACK_ID" == osx-xcode-26.2.* ]] || [[ "$BITRISEIO_STACK_ID" == osx-xcode-26.3.* ]]; then
+            # TODO: Remove this guard once osx-xcode stacks ship JDK 25
+            if [[ "$BITRISEIO_STACK_ID" == osx-xcode-* ]]; then
               VERSION_AVAILABLE=false
             else
               VERSION_AVAILABLE=true
