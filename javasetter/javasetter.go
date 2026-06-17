@@ -164,6 +164,9 @@ func (j JavaSetter) setJavaUbuntu(version JavaVersion) (Result, error) {
 	case JavaVersion21:
 		javaHome = "/usr/lib/jvm/java-21-openjdk-amd64"
 		javaPath = filepath.Join(javaHome, "bin/java")
+	case JavaVersion25:
+		javaHome = "/usr/lib/jvm/java-25-openjdk-amd64"
+		javaPath = filepath.Join(javaHome, "bin/java")
 	}
 
 	javacPath := filepath.Join(javaHome, "bin/javac")

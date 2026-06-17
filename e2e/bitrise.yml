@@ -73,8 +73,12 @@ workflows:
         - content: |-
             #!/bin/bash
             set -ex
-            # TODO: Remove this guard once stacks ship JDK 25
-            VERSION_AVAILABLE=false
+            # TODO: Remove this guard once osx-xcode stacks ship JDK 25
+            if [[ "$BITRISEIO_STACK_ID" == osx-xcode-* ]]; then
+              VERSION_AVAILABLE=false
+            else
+              VERSION_AVAILABLE=true
+            fi
             envman add --key VERSION_AVAILABLE --value "$VERSION_AVAILABLE"
 
     - path::./:
