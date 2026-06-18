@@ -14,7 +14,7 @@ workflows:
         - content: |-
             #!/bin/bash
             set -ex
-            if [[ "$BITRISEIO_STACK_ID" == osx-xcode-15.* ]] || [[ "$BITRISEIO_STACK_ID" == osx-xcode-14.* ]] || [[ "$BITRISEIO_STACK_ID" == linux-docker-android-* ]]; then
+            if [[ "$BITRISEIO_STACK_ID" == linux-docker-android-* ]]; then
               VERSION_AVAILABLE=true
             else
               VERSION_AVAILABLE=false
@@ -60,6 +60,33 @@ workflows:
         title: Execute step
         inputs:
         - set_java_version: 21
+
+  test_java25:
+    envs:
+    - EXPECTED_VERSION: 25
+    after_run:
+    - _check_version
+    steps:
+    - script:
+        title: Check if JDK version is available on stack
+        inputs:
+        - content: |-
+            #!/bin/bash
+            set -ex
+            # TODO: Remove this guard once osx-xcode stacks ship JDK 25
+            if [[ "$BITRISEIO_STACK_ID" == osx-xcode-* ]] || [[ "$BITRISEIO_STACK_ID" == linux-docker-android-22.04 ]]; then
+              VERSION_AVAILABLE=false
+            else
+              VERSION_AVAILABLE=true
+            fi
+            envman add --key VERSION_AVAILABLE --value "$VERSION_AVAILABLE"
+
+    - path::./:
+        title: Execute step
+        run_if: >
+          {{ enveq "VERSION_AVAILABLE" "true" }}
+        inputs:
+        - set_java_version: 25
 
   _check_version:
     summary: Compares current JDK version to $EXPECTED_VERSION
